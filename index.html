@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visite Pilote | Génie Chimique</title>
+  <link rel="icon" href="./images/icone.png" type="image/png">
+    
+    <!-- Police : Inter pour un look industriel/labo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. CONFIGURATION GLOBALE & VARIABLES --- */
+        :root {
+            --bg-color: #0b0c10;        /* Noir profond */
+            --card-bg: #1f2833;         /* Gris bleuté sombre */
+            --text-main: #c5c6c7;       /* Gris clair lisible */
+            --text-highlight: #66fcf1;  /* Cyan néon (l'accent "Science") */
+            --accent-dark: #45a29e;     /* Cyan assombri */
+            --font-main: 'Inter', sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden; /* Évite le scroll horizontal */
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- 2. NAVIGATION (Menu Fixe) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(11, 12, 16, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid #1f2833;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 700; color: #fff; }
+        .logo span { color: var(--text-highlight); }
+
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a {
+            font-size: 0.95rem; font-weight: 500; color: #fff;
+            transition: var(--transition); position: relative;
+        }
+        .nav-links a:hover { color: var(--text-highlight); }
+
+        /* --- 3. SECTION HERO (Introduction) --- */
+        .hero {
+            height: 90vh; /* Prend presque tout l'écran */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at center, #1f2833 0%, #0b0c10 100%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3rem; color: #fff; margin-bottom: 1.5rem; line-height: 1.2;
+        }
+        .intro-text {
+            font-size: 1.1rem; margin-bottom: 2.5rem; color: #c5c6c7;
+        }
+        .btn-primary {
+            display: inline-block; padding: 0.8rem 2rem;
+            border: 2px solid var(--text-highlight); color: var(--text-highlight);
+            border-radius: 4px; font-weight: 600; text-transform: uppercase;
+            transition: var(--transition);
+        }
+        .btn-primary:hover {
+            background: var(--text-highlight); color: var(--bg-color);
+            box-shadow: 0 0 20px rgba(102, 252, 241, 0.4);
+        }
+
+        /* --- 4. SECTION GALERIE PRINCIPALE (Le Iframe) --- */
+        .gallery-section {
+            padding: 6rem 5%;
+            background: #0f1216;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .section-header {
+            margin-bottom: 3rem;
+            border-left: 5px solid var(--text-highlight);
+            padding-left: 20px;
+        }
+        .section-header h2 { font-size: 2.5rem; color: #fff; }
+        .section-header p { color: var(--accent-dark); margin-top: 0.5rem; }
+
+        /* Conteneur de l'iframe "Look Écran de Contrôle" */
+        .immersive-viewer {
+            position: relative;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #2d3842;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+            background: #000;
+        }
+        
+        /* Effet de lueur autour du viewer */
+        .immersive-viewer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--text-highlight), transparent);
+            opacity: 0.7;
+            z-index: 10;
+        }
+
+        /* On force le iframe à bien se comporter */
+        .immersive-viewer iframe {
+            display: block;
+            width: 100%;
+            /* La hauteur est définie dans le HTML (640), mais on assure le responsive ici */
+            min-height: 500px; 
+        }
+
+        .viewer-caption {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .viewer-caption span { color: var(--text-highlight); }
+
+        /* --- 5. SECTION À PROPOS --- */
+        .about-section {
+            padding: 6rem 5%;
+        }
+        .about-card {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 8px;
+            border-top: 3px solid var(--text-highlight);
+        }
+        .tech-tags {
+            display: flex; gap: 10px; flex-wrap: wrap; margin-top: 2rem;
+        }
+        .tag {
+            background: #2b3642; color: #fff; padding: 5px 12px; 
+            border-radius: 4px; font-size: 0.85rem; border: 1px solid #3e4c59;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center; padding: 2rem; background: #050505;
+            color: #555; font-size: 0.9rem; border-top: 1px solid #1f2833;
+        }
+
+        /* --- ANIMATIONS & RESPONSIVE --- */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-links { display: none; }
+            .immersive-viewer iframe { height: 400px; } /* Ajustement mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">Génie Procédés <span>360°</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">Accueil</a></li>
+            <li><a href="#gallery">Visite Virtuelle</a></li>
+            <li><a href="#about">À propos</a></li>
+        </ul>
+    </nav>
+
+    <!-- Accueil -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+           <p><img src="./images/moi.png" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid #66fcf1; box-shadow: 0 0 20px rgba(102, 252, 241, 0.3); margin-bottom: 20px;margin-top: 20px">
+            </p>
+            <h1>Galerie immersive d’installations pilotes</h1>
+            <p class="intro-text">
+                Bienvenue, étudiant en génie chimique, je vous propose d'explorer l'intégralité des installations pilotes à travers une interface unique à 360°.
+            </p>
+            <a href="#gallery" class="btn-primary">Lancer l'exploration</a>
+        </div>
+    </section>
+
+    <!-- Galerie (IFRAME UNIQUE) -->
+    <section id="gallery" class="gallery-section">
+        <div class="container reveal">
+            <div class="section-header">
+                <h2>Exploration</h2>
+                <p>Naviguez entre les différentes installations via le menu de la visite.</p>
+            </div>
+
+            <!-- CONTENEUR DU IFRAME KUULA -->
+            <div class="immersive-viewer">
+                <iframe 
+                    width="100%" 
+                    height="640" 
+                    style="width: 100%; height: 640px; border: none; max-width: 100%;" 
+                    frameborder="0" 
+                    allow="xr-spatial-tracking; gyroscope; accelerometer" 
+                    allowfullscreen 
+                    scrolling="no" 
+                    src="https://kuula.co/share/collection/7H2DM?logo=1&info=1&fs=1&vr=0&thumbs=1">
+                </iframe>
+            </div>
+            
+            <div class="viewer-caption">
+                <p></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- À Propos -->
+    <section id="about" class="about-section">
+        <div class="container reveal">
+            <div class="about-card">
+                <h2 style="color: #fff; margin-bottom: 1.5rem;">Démarche Scientifique</h2>
+                <p style="margin-bottom: 1rem;">
+                    Ce projet a été réalisé pour valoriser les travaux pratiques effectués en <strong>Génie Chimique - Génie des Procédés</strong>. 
+                    L'objectif est de permettre une visualisation spatiale des équipements (colonnes, réacteurs, échangeurs) souvent complexes à appréhender sur de simples schémas P&ID.
+                </p>
+                <p>
+                    En centralisant ces vues immersives, je souhaite partager une vision concrète de l'environnement industriel pilote.
+                </p>
+                
+                <div class="tech-tags">
+                    <span class="tag">Opérations Unitaires</span>
+                    <span class="tag">Sécurité des Procédés</span>
+                    <span class="tag">Instrumentation</span>
+                    <span class="tag">Réalité Virtuelle</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 - Waldemar d'Orey.All Rights Reserve.</p>
+    </footer>
+
+    <!-- Script JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animation d'apparition au scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // Scroll fluide pour le menu
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if(target){
+                        const navHeight = document.querySelector('.navbar').offsetHeight;
+                        window.scrollTo({
+                            top: target.offsetTop - navHeight,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
